@@ -1,6 +1,7 @@
 ---
 - name: first cisco playbook
   connection: network_cli
+  become: yes
   hosts: routers
   gather_facts: false
   tasks:
@@ -16,6 +17,5 @@
     - name: Backing up the config
       ios_config:
         backup: yes
-        provider:
-          auth_pass: cisco
+
 
