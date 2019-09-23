@@ -1,0 +1,52 @@
+---
+- name: Update config on cisco devices
+  connection: network_cli
+  become: yes
+  hosts: routers
+  gather_facts: false
+  tasks:
+    #Collect all facts from the device
+    - name: Gather facts
+      ios_facts:
+        gather_subset: all
+      register: myfacts
+#'ansible_facts': {u'ansible_net_config':
+    - name: Backing up the config
+      ios_config:
+        backup: yes
+
+#    - name: Shut down all inactive interfaces
+#      ios_config:
+#        lines:
+#          - shutdown
+#        parents: "{{ item }}"
+#      with_items:
+#        - interface Serial0/0
+#        - interface Serial0/1
+#        - interface Serial0/2
+#        - interface Serial0/3
+#        - interface Serial0/4
+#        - interface Serial0/5
+#        - interface FastEthernet0/0
+#        - interface FastEthernet1/0
+#        - interface FastEthernet2/0
+
+    - name: check ip helper config
+      ios_config:
+        lines: "ip helper-address 172.168.4.4"
+        parents: interface FastEthernet0/1
+        match: present
+
+    - name: configure helper address if missing
+      ios_config:
+        lines:
+          - ip helper-address 172.168.4.4
+        parents: interface FastEthernet0/1
+
+    - name: check the startup-config against the running-config
+      ios_config:
+        diff_against: startup
+
+    - name: save running to startup when modified
+      ios_config:
+        save_when: modified
