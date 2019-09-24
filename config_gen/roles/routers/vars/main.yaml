@@ -1,0 +1,13 @@
+---
+routers:
+  - hostname: R1
+    iface_a: GigabitEthernet1/1
+    iface_b: GigabitEthernet1/2
+
+  - hostname: R2
+    iface_a: GigabitEthernet1/3
+    iface_b: GigabitEthernet1/4
+
+  - hostname: R3
+    iface_a: TenGigabitEthernet1/1
+    iface_b: TenGigabitEthernet1/5
