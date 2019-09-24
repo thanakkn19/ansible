@@ -1,0 +1,7 @@
+---
+- name: Config generator playbook
+  hosts: localhost
+
+  roles:
+  - routers
+
